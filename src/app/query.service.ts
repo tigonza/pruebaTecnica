@@ -7,6 +7,8 @@ const apost = /&#x27;/gi
 const slash = /&#x2F;/gi
 const quote = /&quot;/gi
 
+
+
 @Injectable({
   providedIn: 'root',
 })
@@ -14,6 +16,7 @@ export class QueryService {
   current_best_stories:any[] = []
   current_selected_id:number
   current_story_title:string
+  comments_bucket:StoryDetails[] =[]
 
   constructor(private http:HttpClient ) { }
 
@@ -55,7 +58,6 @@ export class QueryService {
             this.current_best_stories.push(newStory)
             counter++
           }
-          console.log(this.current_best_stories)
           s.next(this.current_best_stories)
         });
       });
@@ -76,10 +78,12 @@ export class QueryService {
           comments.push(this.processText(r2.text))
         }
         let storydetails:StoryDetails = {
+          title: aux.title,
           id: aux.id,
           comments: comments,
           kids: aux.kids
         }
+        this.comments_bucket.push(storydetails)
         s.next(storydetails)
       })
     });
@@ -93,6 +97,7 @@ export class QueryService {
     newtext = newtext.replace(quote, '\"')
     newtext = newtext.replace(/<p>/gi, '\n')
     newtext = newtext.replace(slash, '/')
+    newtext = newtext.replace(/&gt;/, '>')
 
     // TODO: Grab links from text, turn them into hyperlinks(?),
     // Also finish finding all document specific expresions and transform them.
@@ -117,6 +122,7 @@ export class Story {
 
 export class StoryDetails {
   id: number;
-  comments: string[]
-  kids: number[]
+  title: string;
+  comments: string[];
+  kids: number[];
 }

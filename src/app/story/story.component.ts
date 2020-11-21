@@ -26,14 +26,26 @@ export class StoryComponent implements OnInit {
   ngOnInit(): void {
     this.storyId = Number(this.route.snapshot.paramMap.get('id'));
     this.queryService.current_selected_id = this.storyId
-    this.queryService.current_story_details.subscribe(x => {
-      this.storyDetails = x
-      this.title = this.queryService.current_story_title
-      this.data = this.storyDetails.comments
-      this.ready=true
-      this.cdr.detectChanges()
-
-    });
+    
+    for (let story of this.queryService.comments_bucket){
+      if (story.id == this.storyId){
+        this.title = story.title
+        this.data = story.comments
+        this.ready=true
+        this.cdr.detectChanges()
+        break
+      }
+    }
+    if (!this.ready) {
+      this.queryService.current_story_details.subscribe(x => {
+        this.storyDetails = x
+        this.title = this.queryService.current_story_title
+        this.data = this.storyDetails.comments
+        this.ready=true
+        this.cdr.detectChanges()
+  
+      });
+    }
   } 
 
 }

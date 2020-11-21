@@ -26,5 +26,16 @@
         ]
       }
     }
+  ],
+  "dataGroups": [
+    {
+      "name": "requests",
+      "urls": ["https://hacker-news.firebaseio.com/v0/**"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "maxSize": 10,
+        "maxAge": "3d"
+      }
+    }
   ]
 }
