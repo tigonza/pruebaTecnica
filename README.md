@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
 # Running the app
-`npm install` first to load modules.
+Use `npm install` right after the first pull to load modules.
 
 ## Build
 
